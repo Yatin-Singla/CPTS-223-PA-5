@@ -1,0 +1,6 @@
+*VC*
+*.log
+*.sln
+*ebug*
+*.vs
+PA\5\-\Board\Game/*vcxproj*
