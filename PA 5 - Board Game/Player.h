@@ -6,6 +6,9 @@ using std::cin;
 using std::cout;
 using std::pair;
 using std::map;
+using std::iterator;
+using std::endl;
+using std::make_pair;
 
 //typedef struct position
 //{
