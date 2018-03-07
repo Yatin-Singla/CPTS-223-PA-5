@@ -17,7 +17,7 @@ public:
 
 	// returns true if player was found
 	bool Find(int ID);
-	bool Find(pair<int, int>Pos);
+	bool Find(pair<int, int> Pos);
 
 	// i) in bound check, ii) if a player is present at that spot remove that player, 
 	// iii) if a player is removed display which player was removed
