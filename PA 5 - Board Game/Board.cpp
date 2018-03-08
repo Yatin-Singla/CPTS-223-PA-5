@@ -150,21 +150,56 @@ void Board::RecursiveMoveTo(pair<int, int> Loc, pair<int, int> Des)
 	}
 	else
 	{
-		if (Des.first > Loc.first && Des.second > Loc.first)
+		// To the Upper Right Half (I Quadrant)
+		if (Des.first > Loc.first && Des.second > Loc.second)
 		{
 			Loc.first++;
 			Loc.second++;
 			RecursiveMoveTo(Loc, Des);
 		}
-		else if(Des.first > Loc.first)
+		// To the Lower Right Bottom (IV Quadrant)
+		else if(Des.first > Loc.first && Des.second < Loc.second )
+		{
+			Loc.first++;
+			Loc.second--;
+			RecursiveMoveTo(Loc, Des);
+		}
+		// II Quadrant 
+		else if(Des.first < Loc.first && Des.second > Loc.first)
+		{
+			Loc.first--;
+			Loc.second++;
+			RecursiveMoveTo(Loc, Des);
+		}
+		// III Quadrant 
+		else if (Des.first < Loc.first && Des.second < Loc.first)
+		{
+			Loc.first--;
+			Loc.second--;
+			RecursiveMoveTo(Loc, Des);
+		}
+		// Along +X axis -> 
+		else if (Des.first > Loc.first)
 		{
 			Loc.first++;
 			RecursiveMoveTo(Loc, Des);
 		}
-		else
+		// Along -X axis <-
+		else if (Des.first < Loc.first)
+		{
+			Loc.first--;
+		}
+		//              ^  
+		//Along +Y axis |
+		else if (Des.second > Loc.second)
 		{
 			Loc.second++;
-			RecursiveMoveTo(Loc, Des);
+		}
+		// Along -Y axis |
+		//               V
+		else if (Des.second < Loc.second)
+		{
+			Loc.second--;
 		}
 	}
 }
