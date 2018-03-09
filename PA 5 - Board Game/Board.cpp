@@ -11,6 +11,11 @@ bool Board::BoundCheck(int x, int y)
 	return returnValue;
 }
 
+Board::~Board()
+{
+	outputFile.close();
+}
+
 bool Board::Insert(int ID, int x, int y)
 {
 	bool returnValue = false;
@@ -38,22 +43,26 @@ bool Board::Insert(int ID, int x, int y)
 				else
 				{
 					cout << "ERROR: Player Insertion Failed: Position on board being accommodated by another Player." << endl;
+					Print("ERROR: Player Insertion Failed: Position on board being accommodated by another Player.");
 
 				}
 			}
 			else
 			{
 				cout << "ERROR: Player Insertion Failed: Player ID not unique" << endl;
+				Print("ERROR: Player Insertion Failed: Player ID not unique");
 			}
 		}
 		else
 		{
 			cout << "ERROR: Player cannot be inserted because the destination location is out of bounds." << endl;
+			Print("ERROR: Player cannot be inserted because the destination location is out of bounds.");
 		}
 	}	
 	else
 	{
 		cout << "ERROR: Player Insertion failed because the number players on board exceed the Length of the Board" << endl;
+		Print("ERROR: Player Insertion failed because the number players on board exceed the Length of the Board");
 	}
 	return returnValue;
 
@@ -112,7 +121,11 @@ bool Board::MoveTo(int ID, int x2, int y2)
 		{	//deletes a player if they occupy the coordinates of destination
 			map<pair<int, int>, int>::iterator itr = getValueUniqueID.find(make_pair(x2, y2));
 			cout << "A Player with uniqueID = " << itr->second;
+			//writing to the outfile
+			outputFile << "A Player with uniqueID = " << itr->second;
+			
 			cout << " occupying coordinates (" << itr->first.first << "," << itr->first.second << ") was removed from the Board" << endl;
+			outputFile << " occupying coordinates (" << itr->first.first << "," << itr->first.second << ") was removed from the Board" << endl;
 
 			//deleting the Player from the Board
 			Board(itr->second);
@@ -123,7 +136,7 @@ bool Board::MoveTo(int ID, int x2, int y2)
 			//moves the player diagonally, along the row or column
 			RecursiveMoveTo((getValuePos.find(ID))->second, make_pair(x2, y2));
 			(getValuePos.find(ID))->second = make_pair(x2, y2);
-			//deletes the player from seconf map to update the location of the unique ID associated with it.
+			//deletes the player from second map to update the location of the unique ID associated with it.
 			getValueUniqueID.erase(make_pair(x2, y2));
 			getValueUniqueID.insert(make_pair(make_pair(x2, y2), ID));
 			returnValue = true;
@@ -131,12 +144,14 @@ bool Board::MoveTo(int ID, int x2, int y2)
 		else
 		{
 			cout << "Sorry the Player with ID does not exist" << endl;
+			Print("Sorry the Player with ID does not exist");
 		}
 		
 	}
 	else
 	{
 		cout << "ERROR: MoveTo Function failed because the destination is out of bounds." << endl;
+		Print("ERROR: MoveTo Function failed because the destination is out of bounds.");
 	}
 
 	return returnValue;
@@ -207,8 +222,15 @@ void Board::RecursiveMoveTo(pair<int, int> Loc, pair<int, int> Des)
 void Board::PrintByID()
 {
 	cout << "Player:" << endl;
+	Print("Player:");
 	for (map<int, pair<int, int>>::iterator itr = getValuePos.begin(); itr != getValuePos.end(); itr++)
 	{
 		cout << "Unique ID: " << itr->first << " -> (" << itr->second.first << ", " << itr->second.second << ") " << endl;
+		outputFile << "Unique ID: " << itr->first << " -> (" << itr->second.first << ", " << itr->second.second << ") " << endl;
 	}
+}
+
+void Board::Print(string DisplayText)
+{
+	outputFile << DisplayText << endl;	
 }

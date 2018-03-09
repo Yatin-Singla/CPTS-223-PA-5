@@ -5,7 +5,12 @@
 class Board
 {
 public:
-	explicit Board(int m) :sizeM(m), PlayersN(0) {};
+	explicit Board(int m) :sizeM(m), PlayersN(0) 
+	{
+		outputFile.open("Test-Results-Output.txt");
+	};
+
+	~Board();
 
 	// i) n< m, ii) x and y in bounds, iii) unique id check 
 	bool Insert(int ID, int x, int y);
@@ -30,6 +35,9 @@ public:
 	// inorder traversal(ID) of red and black tree
 	void PrintByID();
 
+	//prints to outfile
+	void Print(string DisplayText);
+
 private:
 	//size of board
 	int sizeM;
@@ -39,4 +47,5 @@ private:
 	map<int, pair<int, int>> getValuePos;
 	//map<Pos(x,y), ID>
 	map<pair<int, int>, int> getValueUniqueID;
+	fstream outputFile;
 };
